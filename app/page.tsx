@@ -117,6 +117,41 @@ const parseDescription = (description?: string) => {
       memo: "",
     };
   }
+  if (description.includes("Adjustment of the card transaction")) {
+    return {
+      payee: description.split(":")[1].trim(),
+      memo: "Adjustment",
+    };
+  }
+  if (description.includes("Payment source modification")) {
+    return {
+      payee: description.split(":")[1].split("-")[0].trim(),
+      memo: "",
+    };
+  }
+  if (description.includes("SEPA direct debit emitted to")) {
+    return {
+      payee: description.split("SEPA direct debit emitted to")[1].trim(),
+      memo: "",
+    };
+  }
+  if (description.includes("Cancellation of the card transaction"))
+    return {
+      payee: description.split(":")[1].trim(),
+      memo: "Cancellation",
+    };
+  if (description.includes("Internal bank transfer emitted")) {
+    return {
+      payee: "Internal transfer",
+      memo: "",
+    };
+  }
+  if (description.includes("Refund of the card transaction")) {
+    return {
+      payee: description.split(":")[1].trim(),
+      memo: "Refund",
+    };
+  }
   return {
     payee: "",
     memo: description,
