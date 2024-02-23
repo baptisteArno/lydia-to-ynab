@@ -71,8 +71,8 @@ const readAndProcessData = (file: File) => {
         return {
           ["Date"]: date,
           ["Memo"]: memo,
-          ["Payee"]: payee,
-          ["Outflow"]: outflow,
+          ["Payee"]: toTitleCase(payee),
+          ["Outflow"]: outflow?.slice(1),
           ["Inflow"]: inflow,
         };
       });
@@ -101,7 +101,10 @@ const parseDescription = (description?: string) => {
   }
   if (description.includes("Card transaction:")) {
     return {
-      payee: description.split("Card transaction:")[1].trim(),
+      payee: description
+        .split("Card transaction:")[1]
+        .trim()
+        .replace("PAYPAL *", ""),
       memo: "",
     };
   }
@@ -156,4 +159,10 @@ const parseDescription = (description?: string) => {
     payee: "",
     memo: description,
   };
+};
+
+const toTitleCase = (str: string) => {
+  return str.replace(/\w\S*/g, function (txt) {
+    return txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase();
+  });
 };
