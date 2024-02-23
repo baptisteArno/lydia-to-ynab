@@ -126,7 +126,7 @@ const parseDescription = (description?: string) => {
   if (description.includes("Payment source modification")) {
     return {
       payee: description.split(":")[1].split("-")[0].trim(),
-      memo: "",
+      memo: "Source modification",
     };
   }
   if (description.includes("SEPA direct debit emitted to")) {
